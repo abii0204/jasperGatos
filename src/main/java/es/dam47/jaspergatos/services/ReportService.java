@@ -79,4 +79,36 @@ public class ReportService {
         }
     }
 
+    public byte[] generarReportEventos(String reportName, String nombreEventoCliente) throws Exception {
+        Connection connection = null;
+        try {
+            // 1️⃣ Establecer conexión con la base de datos
+            System.out.println("Conectando al túnel SSH y PostgreSQL...");
+            connection = SQLDatabaseManager.getConnection();
+
+            // 2️⃣ Cargar el archivo del informe Jasper (.jasper)
+            InputStream reportStream = new FileInputStream("src/main/resources/reports/" + reportName + ".jasper");
+            if (reportStream == null) {
+                throw new JRException("El informe no se encontró: " + reportName);
+            }
+
+            // 3️⃣ No necesitamos pasar parámetros, simplemente dejamos el mapa vacío
+            Map<String, Object> params = new HashMap<>(); // Mapa vacío
+            params.put("nombreEvento", nombreEventoCliente);
+
+            // 4️⃣ Rellenar el informe Jasper con la conexión de la base de datos
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, params, connection);
+
+            // 5️⃣ Exportar el informe a PDF
+            System.out.println("Generando reporte...");
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+
+        } finally {
+            // 6️⃣ Cerrar la conexión al finalizar
+            if (connection != null) {
+                SQLDatabaseManager.closeConnection();
+            }
+        }
+    }
+
 }

@@ -121,6 +121,39 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
+    @GetMapping("/getEventosCliente/{nombreEvento}") // La URL completa será "/report/getReport".
+    public ResponseEntity<byte[]> getFicha(@PathVariable String nombreEvento) {
+        System.out.println("Obteniendo informe"); // Mensaje en consola para indicar que se está procesando la solicitud.
+
+        try {
+            // Llama al servicio para generar el informe y lo almacena como un array de bytes.
+            byte[] report = reportService.generarReportEventos("eventosClientes", nombreEvento);
+
+            // Crea encabezados HTTP para especificar que la respuesta será un archivo PDF.
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF); // Indica que el contenido es un PDF.
+            headers.add("Content-Disposition", "inline; filename=report.pdf"); // Especifica cómo se debe mostrar el archivo (en línea).
+
+            // Retorna el informe con los encabezados y un código de estado HTTP 200 (OK).
+            return new ResponseEntity<>(report, headers, HttpStatus.OK);
+
+        } catch (JRException e) {
+            // Maneja excepciones relacionadas con JasperReports.
+            System.out.println(e.getMessage()); // Muestra el mensaje de error en consola.
+
+        } catch (FileNotFoundException e) {
+            // Maneja excepciones cuando no se encuentra el archivo del informe.
+            System.out.println(e.getMessage()); // Muestra el mensaje de error en consola.
+
+        } catch (Exception e) {
+            // Maneja cualquier otra excepción no anticipada.
+            throw new RuntimeException(e); // Lanza una excepción para que sea manejada por el framework.
+        }
+
+        // En caso de error, retorna una respuesta con estado 500 (Error interno del servidor) y un cuerpo nulo.
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
+
 
 
 }
