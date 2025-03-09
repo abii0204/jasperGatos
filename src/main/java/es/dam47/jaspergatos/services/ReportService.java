@@ -21,7 +21,7 @@ public class ReportService {
         try {
             // 1️⃣ Establecer conexión con la base de datos
             System.out.println("Conectando al túnel SSH y PostgreSQL...");
-            connection = SQLDatabaseManager.getConnection();
+            connection = SQLDatabaseManager.connect();
 
             // 2️⃣ Cargar el archivo del informe Jasper (.jasper)
             InputStream reportStream = new FileInputStream("src/main/resources/reports/" + reportName + ".jasper");
@@ -42,7 +42,7 @@ public class ReportService {
         } finally {
             // 6️⃣ Cerrar la conexión al finalizar
             if (connection != null) {
-                SQLDatabaseManager.closeConnection();
+                SQLDatabaseManager.disconnect(connection);
             }
         }
     }
@@ -52,7 +52,7 @@ public class ReportService {
         try {
             // 1️⃣ Establecer conexión con la base de datos
             System.out.println("Conectando al túnel SSH y PostgreSQL...");
-            connection = SQLDatabaseManager.getConnection();
+            connection = SQLDatabaseManager.connect();
 
             // 2️⃣ Cargar el archivo del informe Jasper (.jasper)
             InputStream reportStream = new FileInputStream("src/main/resources/reports/" + reportName + ".jasper");
@@ -74,7 +74,7 @@ public class ReportService {
         } finally {
             // 6️⃣ Cerrar la conexión al finalizar
             if (connection != null) {
-                SQLDatabaseManager.closeConnection();
+                SQLDatabaseManager.disconnect(connection);
             }
         }
     }
@@ -84,7 +84,7 @@ public class ReportService {
         try {
             // 1️⃣ Establecer conexión con la base de datos
             System.out.println("Conectando al túnel SSH y PostgreSQL...");
-            connection = SQLDatabaseManager.getConnection();
+            connection = SQLDatabaseManager.connect();
 
             // 2️⃣ Cargar el archivo del informe Jasper (.jasper)
             InputStream reportStream = new FileInputStream("src/main/resources/reports/" + reportName + ".jasper");
@@ -106,7 +106,7 @@ public class ReportService {
         } finally {
             // 6️⃣ Cerrar la conexión al finalizar
             if (connection != null) {
-                SQLDatabaseManager.closeConnection();
+                SQLDatabaseManager.disconnect(connection);
             }
         }
     }
