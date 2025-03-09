@@ -5,6 +5,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -24,7 +25,7 @@ public class ReportService {
             connection = SQLDatabaseManager.connect();
 
             // 2️⃣ Cargar el archivo del informe Jasper (.jasper)
-            InputStream reportStream = new FileInputStream("src/main/resources/reports/" + reportName + ".jasper");
+            InputStream reportStream = new ClassPathResource("reports/" + reportName + ".jasper").getInputStream();
             if (reportStream == null) {
                 throw new JRException("El informe no se encontró: " + reportName);
             }
@@ -55,7 +56,7 @@ public class ReportService {
             connection = SQLDatabaseManager.connect();
 
             // 2️⃣ Cargar el archivo del informe Jasper (.jasper)
-            InputStream reportStream = new FileInputStream("src/main/resources/reports/" + reportName + ".jasper");
+            InputStream reportStream = new ClassPathResource("reports/" + reportName + ".jasper").getInputStream();
             if (reportStream == null) {
                 throw new JRException("El informe no se encontró: " + reportName);
             }
@@ -87,7 +88,7 @@ public class ReportService {
             connection = SQLDatabaseManager.connect();
 
             // 2️⃣ Cargar el archivo del informe Jasper (.jasper)
-            InputStream reportStream = new FileInputStream("src/main/resources/reports/" + reportName + ".jasper");
+            InputStream reportStream = new ClassPathResource("reports/" + reportName + ".jasper").getInputStream();
             if (reportStream == null) {
                 throw new JRException("El informe no se encontró: " + reportName);
             }
